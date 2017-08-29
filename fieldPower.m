@@ -26,7 +26,7 @@ if ~isempty(F.E2)
     value2 = 0.25 * sum(sum(CrossProduct2(:,:,3) .* FG.ds2));
 end;
 
-result = value1 + value2;
+result = value1/(value1 + value2);
 
 % Generating a cylinder - it is used only for plotting the fiber 
 % A = zeros(1,20);

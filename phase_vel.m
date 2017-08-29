@@ -1,4 +1,4 @@
-function hand = phase_vel(MODES, caption)
+function hand = phase_vel(MODES, caption, color)
 % Displays modal curves for the MODES array.
 % 
 % Each element in MODES contains fields ARG, NEFF, ARGTYPE and PAR that are
@@ -24,13 +24,13 @@ neffmax = -Inf;
 c=3e8;
 
 for i = 1:numel(MODES)
-    if parIsLambda
-        colour = colourVsLambda(MODES(i).par);
-    else
-        colour = 'k';
-    end;
+    %if parIsLambda
+    %    colour = colourVsLambda(MODES(i).par);
+    %else
+    %    colour = 'k';
+    %end;
     hold on;
-    h = plot(MODES(i).ARG, c./MODES(i).NEFF, 'Color', colour, 'LineWidth', 1);
+    h = plot(MODES(i).ARG, c./MODES(i).NEFF, 'Color', color, 'LineWidth', 1);
     hand = [hand h]; %#ok<AGROW>
     drawnow;
     argmin = min(argmin, min(MODES(i).ARG));
@@ -39,7 +39,7 @@ for i = 1:numel(MODES)
     neffmin = min(c/neffmin, min(c./MODES(i).NEFF));
 end
 
-ylabel('Phase Velocity');
+ylabel('Velocity');
 if strcmpi(MODES(1).argtype, 'WVL')
     xlabel('Wavelength, nm');
 elseif strcmpi(MODES(1).argtype, 'DIA')

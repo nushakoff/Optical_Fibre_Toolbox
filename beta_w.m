@@ -1,4 +1,4 @@
-function hand = group_vel(MODES, caption,color)
+function hand = beta_w(MODES, caption, color)
 % Displays modal curves for the MODES array.
 % 
 % Each element in MODES contains fields ARG, NEFF, ARGTYPE and PAR that are
@@ -22,9 +22,7 @@ argmax = -Inf;
 neffmin = Inf;
 neffmax = -Inf;
 c=3e8;
-
-% Vg = vp-lmbda*(dvp/dlmbda)
-VG=[];
+beta_w=[];
 for i = 1:numel(MODES)
     %if parIsLambda
     %    colour = colourVsLambda(MODES(i).par);
@@ -32,31 +30,23 @@ for i = 1:numel(MODES)
     %    colour = 'k';
     %end;
     hold on;
-    for cnt=1:numel(MODES(i).ARG)
-    	vp=c/MODES(i).NEFF(cnt);
-    	lambda=MODES(i).ARG(cnt);
-    	if cnt ~= 1
-    		vp_past=c/MODES(i).NEFF(cnt-1);
-    		lambda_past=MODES(i).ARG(cnt-1);
-    	else
-    		vp_past=c;
-    		lambda_past=MODES(i).ARG(1);
-    	end
-    	delta_term=lambda*((vp-vp_past)/(lambda-lambda_past));	
-    	VG=[VG vp-delta_term];
-    end
-    h = plot(MODES(i).ARG, VG, 'Color', color, 'LineWidth', 1);
+    %for ctr = 1:numel(MODES(i).ARG)
+    %    beta_w=[beta_w 2*pi*MODES(i).NEFF(ctr)/MODES(i).ARG(ctr)]    
+    %end
+    beta_w=MODES(i).NEFF
+    h = plot(2*pi*c./MODES(i).ARG, beta_w, 'Color', color, 'LineWidth', 1);
     hand = [hand h]; %#ok<AGROW>
     drawnow;
-    argmin = min(argmin, min(MODES(i).ARG));
-    argmax = max(argmax, max(MODES(i).ARG));
-    neffmax = max(neffmax, max(VG));
-    neffmin = min(neffmin, min(VG));
+    argmin = min(argmin, min(2*pi*c./MODES(i).ARG));
+    argmax = max(argmax, max(2*pi*c./MODES(i).ARG));
+    neffmax = max(neffmax, max(beta_w));
+    neffmin = min(neffmin, min(beta_w));
+    color='g'
 end
 
-ylabel('Velocity');
+ylabel('Beta (neff) ');
 if strcmpi(MODES(1).argtype, 'WVL')
-    xlabel('Wavelength, nm');
+    xlabel('Angular Frequency');
 elseif strcmpi(MODES(1).argtype, 'DIA')
     xlabel('Diameter, \mu{}m');
 elseif strcmpi(MODES(1).argtype(1:2), 'VP')
