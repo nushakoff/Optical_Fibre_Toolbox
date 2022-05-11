@@ -28,9 +28,21 @@ lambda = lambda / 1000;
 k0 = 2*pi ./ lambda;
 beta = k0 .* neff;
 
-n1 = refrIndex(fibreSpec.materials{1}, lambda);
-n2 = refrIndex(fibreSpec.materials{2}, lambda);
-n3 = refrIndex(fibreSpec.materials{3}, lambda);
+if ischar(fibreSpec.materials{1})
+    n1 = refrIndex(fibreSpec.materials{1}, lambda);
+else
+    n1 = fibreSpec.materials{1};
+end
+if ischar(fibreSpec.materials{2})
+    n2 = refrIndex(fibreSpec.materials{2}, lambda);
+else
+    n2 = fibreSpec.materials{2};
+end
+if ischar(fibreSpec.materials{3})
+    n3 = refrIndex(fibreSpec.materials{3}, lambda);
+else
+    n3 = fibreSpec.materials{3};
+end
 
 [IXclad] = find(neff < n2);
 [IXcore] = find(neff >= n2);

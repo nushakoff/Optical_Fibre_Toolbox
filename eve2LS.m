@@ -28,8 +28,16 @@ else
     error('Wrong number of materials');
 end
  
-n_inn = refrIndex(fibreSpec.materials{outerLayer - 1}, lambda);
-n_out = refrIndex(fibreSpec.materials{outerLayer}, lambda);
+if ischar(fibreSpec.materials{outerLayer - 1})
+    n_inn = refrIndex(fibreSpec.materials{outerLayer - 1}, lambda);
+else
+    n_inn = fibreSpec.materials{outerLayer - 1};
+end
+if ischar(fibreSpec.materials{outerLayer})
+    n_out = refrIndex(fibreSpec.materials{outerLayer}, lambda);
+else
+    n_out = fibreSpec.materials{outerLayer};
+end
 
 if outerLayer == 3
     % Calculate cladding mode of three-layer structure
