@@ -72,8 +72,8 @@ end
 if ModeVsLambda
     d = par; 
     F = @(arg, neff) fibreMode(d, neff, arg, fibreSpec, task);
-    n_min = n(outerLayer, argument.max);
-    n_max = n(outerLayer - 1, argument.min);
+    n_min = min(n(outerLayer, argument.max));
+    n_max = max(n(outerLayer - 1, argument.min));
 else % argtype == 'DIA'
     lambda = par;
     F = @(arg, neff) fibreMode(arg, neff, lambda, fibreSpec, task);
